@@ -1,0 +1,1 @@
+org.springframework.boot.env.PropertySourceLoader=com.pccc.clps.configserver2011.MyPropertySourceLoader

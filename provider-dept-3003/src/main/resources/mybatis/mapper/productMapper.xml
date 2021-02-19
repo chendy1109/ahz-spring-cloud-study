@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pccc.clps.providerdept3003.dao.ProductMapper">
+    <resultMap id="productMapper" type="com.pccc.clps.providerdept3003.entity.Product">
+        <id column="b_pro_id" property="id" jdbcType="VARCHAR"/>
+        <result column="b_pro_name" property="name" jdbcType="VARCHAR"/>
+        <result column="b_pro_type" property="type" jdbcType="CHAR"/>
+        <result column="b_pro_code" property="code" jdbcType="VARCHAR"/>
+        <result column="b_pro_imgsrc" property="imgsrc" jdbcType="VARCHAR"/>
+        <result column="b_pro_price" property="price" jdbcType="DECIMAL"/>
+        <result column="addDate" property="addDate" jdbcType="TIMESTAMP"/>
+        <result column="updateDate" property="updateDate" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <select id="getAll" resultMap="productMapper">
+        select * from basic_product
+    </select>
+    <!-- 利用动态sql的查询 -->
+    <select id="findProductByName" resultMap="productMapper">
+        select * from basic_product
+        <where>
+            <if test="name!=null">
+                and b_pro_name like '%${name}%'
+            </if>
+        </where>
+    </select>
+    <!-- 通过id查询 -->
+    <select id="findOneById" resultMap="productMapper">
+        select * from basic_product
+        where b_pro_id = #{id}
+    </select>
+
+    <select id="findProductByType" resultMap="productMapper">
+        select * from basic_product
+        where b_pro_type = #{type}
+    </select>
+    <!-- 新增 -->
+    <insert id="insert">
+        insert into basic_product(b_pro_id, b_pro_name,b_pro_type, b_pro_code, b_pro_imgsrc,
+        b_pro_price,addDate,updateDate)
+        values (#{id},#{name},#{type},#{code},#{imgsrc},#{price},#{addDate},#{updateDate})
+    </insert>
+    <!-- 更新 -->
+    <update id="update">
+        update basic_product set
+        b_pro_name=#{name},b_pro_type=#{type},b_pro_code=#{code},b_pro_imgsrc=#{imgsrc},b_pro_price=#{price},updateDate=#{updateDate}
+        where b_pro_id= #{id}
+    </update>
+
+    <!-- 删除 -->
+    <delete id="delete">
+        delete from basic_product where b_pro_id= #{id}
+    </delete>
+
+
+</mapper>
